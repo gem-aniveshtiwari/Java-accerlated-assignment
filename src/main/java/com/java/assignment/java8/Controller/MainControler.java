@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.CompletableFuture;
+
 @Slf4j
 @RestController
 @RequestMapping(value = "/java")
@@ -15,18 +17,19 @@ public class MainControler {
     private UserService userService;
 
     @GetMapping("/save")
-    public ResponseEntity<String> saveData(
+    public CompletableFuture<ResponseEntity<String>> saveData(
             @RequestParam(value = "name") String name,
             @RequestParam(value = "id") int id,
             @RequestParam(value = "projId") String projId,
             @RequestParam(value = "projectName") String projectName){
         log.info("Inside /save with parameters : " + name + " " + id + " " + projId + " " + projId);
-        return ResponseEntity.ok(userService.saveData(name,id,projId, projectName));
+        return userService.saveData(name, id, projId, projectName).thenApply(ResponseEntity::ok);
     }
 
     @PostMapping("/getData")
-    public ResponseEntity<Response> getData(
+    public CompletableFuture<ResponseEntity<Response>> getData(
             @RequestParam(value = "id") int id){
-        return ResponseEntity.ok(userService.getData(id));
+        log.info("Inside /getData with parameters : " + id);
+        return userService.getData(id).thenApply(ResponseEntity::ok);
     }
 }
