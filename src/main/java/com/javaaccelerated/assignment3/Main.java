@@ -8,12 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
-import java.util.logging.LoggingPermission;
 
 public class Main {
     private static final Logger log = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-    Predicate<String> isZero = i -> i.compareTo("0") == 0;
-    List<String> nlist = new ArrayList<>();
+    Predicate<Integer> isZero = i -> i == 0;
+    List<Integer> nlist = new ArrayList<>();
 
     public static void main(String[] args) {
         log.info("Inside main()");
@@ -33,7 +32,7 @@ public class Main {
         try {
             String line;
             while ((line = read.readLine()) != null)
-               nlist.add(line);
+               nlist.add(Integer.parseInt(line.trim()));
         } catch (Exception e) {
             log.info("Error at readFile()" + e.getMessage());
         }
@@ -47,7 +46,8 @@ public class Main {
                     .filter(Predicate.not(isZero))
                     .forEach(i -> {
                         try {
-                            Files.write(path, i.getBytes(), StandardOpenOption.APPEND);
+                            i += 5;
+                            Files.write(path, String.valueOf(i).getBytes(), StandardOpenOption.APPEND);
                             Files.write(path, "\n".getBytes(), StandardOpenOption.APPEND);
                         } catch (IOException e) {
                             log.info("Runtime Exception at writeFile()" + e.getMessage());
