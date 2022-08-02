@@ -1,10 +1,10 @@
-package com.java.accelerated.lambda;
+package com.java.assignment4;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class LambdaApplicationTests {
+class Assignment4ApplicationTests {
 
 	@Test
 	void contextLoads() {
